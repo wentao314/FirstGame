@@ -1,3 +1,11 @@
+package com.chess.engine.board;
+
+import com.chess.engine.pieces.Piece;
+import com.google.common.collect.ImmutableMap;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents a single tile on the chess board as an abstract class.
  *
@@ -7,14 +15,43 @@
  */
 public abstract class Tile {
 
-    int tileCoordinate;
+    protected final int tileCoordinate;
+
+    private static final Map<Integer, EmptyTile> EMPTY_TILES = createAllPossibleEmptyTiles();
+
+    /**
+     * Creates all 64 possible empty tiles, since the classic chess boards format is a 8x8 square.
+     * @return immutable map of all empty tiles
+     */
+    private static Map<Integer, EmptyTile> createAllPossibleEmptyTiles() {
+
+        final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
+
+        for (int i = 0; i < 64; i++) {
+            emptyTileMap.put(i, new EmptyTile(i));
+        }
+        // using com.google.guava library to return an immutable version of the map so that it cant be altered
+        // with methods like .clear(),.remove(),etc.
+        return ImmutableMap.copyOf(emptyTileMap);
+    }
+
+    /**
+     * Allows creating a new occupied tile with given piece.<p>
+     * Since the tile constructors are private, this is the only way to create new tiles.
+     * @param tileCoordinate coordinate of the new tile
+     * @param piece piece on the new tile
+     * @return if no piece was given, returns one of the cached tiles, otherwise returns the new tile
+     */
+    public static Tile createTile(final int tileCoordinate, final Piece piece) {
+        return piece != null ? new OccupiedTile(tileCoordinate, piece) : EMPTY_TILES.get(tileCoordinate);
+    }
 
     /**
      * Creates a tile at the specified coordinate.
      *
      * @param tileCoordinate coordinate of the tile
      */
-    public Tile (int tileCoordinate) {
+    private Tile (int tileCoordinate) {
         this.tileCoordinate = tileCoordinate;
     }
 
@@ -70,7 +107,7 @@ public abstract class Tile {
      */
     public static final class OccupiedTile extends Tile {
 
-        Piece pieceOnTile;
+        private final Piece pieceOnTile;
 
         /**
          * Creates an occupied tile at the specified coordinate.
