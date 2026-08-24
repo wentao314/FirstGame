@@ -17,7 +17,7 @@ public abstract class Tile {
 
     protected final int tileCoordinate;
 
-    private static final Map<Integer, EmptyTile> EMPTY_TILES = createAllPossibleEmptyTiles();
+    private static final Map<Integer, EmptyTile> EMPTY_TILES_CACHE = createAllPossibleEmptyTiles();
 
     /**
      * Creates all 64 possible empty tiles, since the classic chess boards format is a 8x8 square.
@@ -43,7 +43,7 @@ public abstract class Tile {
      * @return if no piece was given, returns one of the cached tiles, otherwise returns the new tile
      */
     public static Tile createTile(final int tileCoordinate, final Piece piece) {
-        return piece != null ? new OccupiedTile(tileCoordinate, piece) : EMPTY_TILES.get(tileCoordinate);
+        return piece != null ? new OccupiedTile(tileCoordinate, piece) : EMPTY_TILES_CACHE.get(tileCoordinate);
     }
 
     /**
