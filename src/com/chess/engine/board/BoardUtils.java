@@ -39,6 +39,7 @@ public class BoardUtils {
             row[rowIndex * 8 + offset] = true;
             offset++;
         } while(offset < NUM_TILES_PER_ROW);
+        return row;
     }
 
     private BoardUtils() {
