@@ -24,7 +24,7 @@ public class Bishop extends Piece{
      * @param piecePosition the position of the bishop after creation
      * @param pieceAlliance either white or black
      */
-    Bishop(int piecePosition, Alliance pieceAlliance) {
+    Bishop(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -34,22 +34,22 @@ public class Bishop extends Piece{
      * @return a collection of valid moves
      */
     @Override
-    public Collection<Move> calculateLegalMoves(Board board) {
+    public Collection<Move> calculateLegalMoves(final Board board) {
 
         int candidateDestinationCoordinate;
         final List<Move> legalMoves = new ArrayList<>();
 
         // cycles through each of the offsets and checks all the possible moves
-        for(final int candidateCoordinateOffset: CANDIDATE_MOVE_VECTOR_COORDINATES) {
+        for(final int currentCoordinateOffset: CANDIDATE_MOVE_VECTOR_COORDINATES) {
             candidateDestinationCoordinate = this.piecePosition;
             // checking if the position is still on the board
             while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                 // checking for invalid moves
-                if(isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset) ||
-                        isEighthColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
+                if(isFirstColumnExclusion(candidateDestinationCoordinate, currentCoordinateOffset) ||
+                        isEighthColumnExclusion(candidateDestinationCoordinate, currentCoordinateOffset)) {
                     break;
                 }
-                candidateDestinationCoordinate += candidateCoordinateOffset;
+                candidateDestinationCoordinate += currentCoordinateOffset;
                 // checking if the new position with offset applied is still on the board
                 if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                     final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);

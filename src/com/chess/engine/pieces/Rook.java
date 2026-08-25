@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.chess.engine.board.Move.*;
+
 public class Rook extends Piece {
 
     // implementing the horizontal/vertical movement of the rooks as values that can be added onto the rooks current position
@@ -22,45 +24,45 @@ public class Rook extends Piece {
      * @param piecePosition the position of the rook after creation
      * @param pieceAlliance either white or black
      */
-    Rook(int piecePosition, Alliance pieceAlliance) {
+    Rook(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
     /**
-     * Analyzes all possible moves a queen can make and returns only the valid ones.
-     * @param board current bord
+     * Analyzes all possible moves a rook can make and returns only the valid ones.
+     * @param board current board
      * @return a collection of valid moves
      */
     @Override
-    public Collection<Move> calculateLegalMoves(Board board) {
+    public Collection<Move> calculateLegalMoves(final Board board) {
 
         int candidateDestinationCoordinate;
         final List<Move> legalMoves = new ArrayList<>();
 
         // cycles through each of the offsets and checks all the possible moves
-        for(final int candidateCoordinateOffset: CANDIDATE_MOVE_VECTOR_COORDINATES) {
+        for(final int currentCoordinateOffset: CANDIDATE_MOVE_VECTOR_COORDINATES) {
             candidateDestinationCoordinate = this.piecePosition;
             // checking if the position is still on the board
             while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                 // checking for invalid moves
-                if(isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset) ||
-                        isEighthColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
+                if(isFirstColumnExclusion(candidateDestinationCoordinate, currentCoordinateOffset) ||
+                        isEighthColumnExclusion(candidateDestinationCoordinate, currentCoordinateOffset)) {
                     break;
                 }
-                candidateDestinationCoordinate += candidateCoordinateOffset;
+                candidateDestinationCoordinate += currentCoordinateOffset;
                 // checking if the new position with offset applied is still on the board
                 if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                     final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
                     // if the tile isn't occupied, the rook may move there
                     if(!candidateDestinationTile.isTileOccupied()) {
-                        legalMoves.add(new Move.MajorMove(board, this,candidateDestinationCoordinate));
+                        legalMoves.add(new MajorMove(board, this,candidateDestinationCoordinate));
                     } else {
                         // check if the piece at destination belongs to the enemy. if true, the rook may move there.
                         // since there is a blocking piece, the rook mustn't move further.
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if(this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
+                            legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                         }
                         break;
                     }

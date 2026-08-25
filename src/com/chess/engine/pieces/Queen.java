@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.chess.engine.board.Move.*;
+
 public class Queen extends Piece {
 
     // since the queen possesses the abilities of both the rook and bishop, this is going to be a combination of both offsets
@@ -21,17 +23,17 @@ public class Queen extends Piece {
      * @param piecePosition the position of the queen after creation
      * @param pieceAlliance either white or black
      */
-    Queen(int piecePosition, Alliance pieceAlliance) {
+    Queen(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
     /**
      * Analyzes all possible moves a queen can make and returns only the valid ones.
-     * @param board current bord
+     * @param board current board
      * @return a collection of valid moves
      */
     @Override
-    public Collection<Move> calculateLegalMoves(Board board) {
+    public Collection<Move> calculateLegalMoves(final Board board) {
 
         int candidateDestinationCoordinate;
         final List<Move> legalMoves = new ArrayList<>();
@@ -43,7 +45,7 @@ public class Queen extends Piece {
             while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                 // checking for invalid moves
                 if(isFirstColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset) ||
-                        isEighthColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
+                    isEighthColumnExclusion(candidateDestinationCoordinate, candidateCoordinateOffset)) {
                     break;
                 }
                 candidateDestinationCoordinate += candidateCoordinateOffset;
@@ -52,14 +54,14 @@ public class Queen extends Piece {
                     final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
                     // if the tile isn't occupied, the queen may move there
                     if(!candidateDestinationTile.isTileOccupied()) {
-                        legalMoves.add(new Move.MajorMove(board, this,candidateDestinationCoordinate));
+                        legalMoves.add(new MajorMove(board, this,candidateDestinationCoordinate));
                     } else {
                         // check if the piece at destination belongs to the enemy. if true, the queen may move there.
                         // since there is a blocking piece, the queen mustn't move further.
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if(this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new Move.AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
+                            legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                         }
                         break;
                     }
