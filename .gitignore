@@ -2,10 +2,7 @@
 *.iml
 *.xml
 .idea/
-production/
-# Libraries / Binaries
-libraries/
-*.jar
+out/
 # Default ignored files
 /shelf/
 /workspace.xml
