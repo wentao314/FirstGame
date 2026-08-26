@@ -23,7 +23,7 @@ public class Queen extends Piece {
      * @param piecePosition the position of the queen after creation
      * @param pieceAlliance either white or black
      */
-    Queen(final int piecePosition, final Alliance pieceAlliance) {
+    public Queen(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -69,6 +69,12 @@ public class Queen extends Piece {
             }
         }
         return ImmutableList.copyOf(legalMoves);
+    }
+
+    // visualization for the queen as string
+    @Override
+    public String toString() {
+        return PieceType.QUEEN.toString();
     }
 
     // edge-cases for invalid moves (combination of rook and bishop)

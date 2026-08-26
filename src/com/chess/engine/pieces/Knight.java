@@ -23,7 +23,7 @@ public class Knight extends Piece {
      * @param piecePosition the position of the knight after creation
      * @param pieceAlliance either white or black
      */
-    Knight(final int piecePosition, final Alliance pieceAlliance) {
+    public Knight(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -66,6 +66,12 @@ public class Knight extends Piece {
             }
         }
         return ImmutableList.copyOf(legalMoves);
+    }
+
+    // visualization for the knight as string
+    @Override
+    public String toString() {
+        return PieceType.KNIGHT.toString();
     }
 
     // edge-cases for invalid moves

@@ -21,7 +21,7 @@ public class Pawn extends Piece {
      * @param piecePosition the position of the pawn after creation
      * @param pieceAlliance either white or black
      */
-    Pawn(final int piecePosition,final Alliance pieceAlliance) {
+    public Pawn(final int piecePosition,final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -87,5 +87,11 @@ public class Pawn extends Piece {
             }
         }
         return ImmutableList.copyOf(legalMoves);
+    }
+
+    // visualization for the pawn as string
+    @Override
+    public String toString() {
+        return PieceType.PAWN.toString();
     }
 }

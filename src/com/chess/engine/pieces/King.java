@@ -21,7 +21,7 @@ public class King extends Piece {
      * @param piecePosition the position of the king after creation
      * @param pieceAlliance either white or black
      */
-    King(final int piecePosition, final Alliance pieceAlliance) {
+    public King(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -61,6 +61,12 @@ public class King extends Piece {
             }
         }
         return ImmutableList.copyOf(legalMoves);
+    }
+
+    // visualization for the king as string
+    @Override
+    public String toString() {
+        return PieceType.KING.toString();
     }
 
     // edge-cases for invalid moves (snippet from the queen since they move similarly)

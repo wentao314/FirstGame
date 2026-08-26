@@ -24,7 +24,7 @@ public class Rook extends Piece {
      * @param piecePosition the position of the rook after creation
      * @param pieceAlliance either white or black
      */
-    Rook(final int piecePosition, final Alliance pieceAlliance) {
+    public Rook(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -70,6 +70,12 @@ public class Rook extends Piece {
             }
         }
         return ImmutableList.copyOf(legalMoves);
+    }
+
+    // visualization for the rook as string
+    @Override
+    public String toString() {
+        return PieceType.ROOK.toString();
     }
 
     // edge-cases for invalid moves

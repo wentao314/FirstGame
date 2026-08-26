@@ -24,7 +24,7 @@ public class Bishop extends Piece{
      * @param piecePosition the position of the bishop after creation
      * @param pieceAlliance either white or black
      */
-    Bishop(final int piecePosition, final Alliance pieceAlliance) {
+    public Bishop(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -70,6 +70,12 @@ public class Bishop extends Piece{
             }
         }
         return ImmutableList.copyOf(legalMoves);
+    }
+
+    // visualization for the bishop as string
+    @Override
+    public String toString() {
+        return PieceType.BISHOP.toString();
     }
 
     // edge-cases for invalid moves

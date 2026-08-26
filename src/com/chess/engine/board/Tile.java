@@ -84,6 +84,15 @@ public abstract class Tile {
         }
 
         /**
+         * Print visualization of empty tiles as strings.
+         * @return visualizing symbol
+         */
+        @Override
+        public String toString() {
+            return "-";
+        }
+
+        /**
          * Empty tiles cannot be occupied, so this always returns false by definition.
          * @return {@code false} always
          */
@@ -118,6 +127,16 @@ public abstract class Tile {
         public OccupiedTile(int coordinate, Piece pieceOnTile) {
             super(coordinate);
             this.pieceOnTile = pieceOnTile;
+        }
+
+        /**
+         * Print visualization of occupied tiles as strings.
+         * @return visualization as occupying piece
+         */
+        @Override
+        public String toString() {
+            return getPiece().getPieceAlliance().isBlack() ? getPiece().toString().toLowerCase() :
+                   getPiece().toString();
         }
 
         /**

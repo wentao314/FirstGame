@@ -2,6 +2,7 @@
 *.iml
 *.xml
 .idea/
+production/
 # Libraries / Binaries
 libraries/
 *.jar

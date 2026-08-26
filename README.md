@@ -13,12 +13,8 @@ My main goal is to improve my understanding of **oject-oriented programming, alg
 
 ## ✨Current features
 - Chess board representation
-- (WIP) Piece movement and legal move generation for:
-1. Knight
-2. Bishop
-3. Rook
-4. Queen
-5. (WIP) Pawn
+- Piece movement and legal move generation
+- 
 
 ## ⚙️Technologies
 - **Java**
