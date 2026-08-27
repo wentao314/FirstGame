@@ -25,7 +25,7 @@ public class Bishop extends Piece{
      * @param pieceAlliance either white or black
      */
     public Bishop(final int piecePosition, final Alliance pieceAlliance) {
-        super(piecePosition, pieceAlliance);
+        super(PieceType.BISHOP, piecePosition, pieceAlliance);
     }
 
     /**

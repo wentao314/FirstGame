@@ -22,7 +22,7 @@ public class Pawn extends Piece {
      * @param pieceAlliance either white or black
      */
     public Pawn(final int piecePosition,final Alliance pieceAlliance) {
-        super(piecePosition, pieceAlliance);
+        super(PieceType.PAWN, piecePosition, pieceAlliance);
     }
 
     /**

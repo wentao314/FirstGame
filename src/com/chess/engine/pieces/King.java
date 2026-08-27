@@ -22,7 +22,7 @@ public class King extends Piece {
      * @param pieceAlliance either white or black
      */
     public King(final int piecePosition, final Alliance pieceAlliance) {
-        super(piecePosition, pieceAlliance);
+        super(PieceType.KING, piecePosition, pieceAlliance);
     }
 
     /**

@@ -24,7 +24,7 @@ public class Queen extends Piece {
      * @param pieceAlliance either white or black
      */
     public Queen(final int piecePosition, final Alliance pieceAlliance) {
-        super(piecePosition, pieceAlliance);
+        super(PieceType.QUEEN, piecePosition, pieceAlliance);
     }
 
     /**
