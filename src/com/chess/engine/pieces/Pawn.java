@@ -50,8 +50,8 @@ public class Pawn extends Piece {
                 legalMoves.add(new MajorMove(board, this,candidateDestinationCoordinate));
             // pawn jump (2 tile jump)
             } else if(currentCandidateOffset == 16 && this.isFirstMove() &&
-                    (BoardUtils.SECOND_ROW[this.piecePosition] && this.pieceAlliance.isBlack()) ||
-                    (BoardUtils.SEVENTH_ROW[this.piecePosition] && this.pieceAlliance.isWhite())) {
+                    (BoardUtils.SEVENTH_RANK[this.piecePosition] && this.pieceAlliance.isBlack()) ||
+                    (BoardUtils.SECOND_RANK[this.piecePosition] && this.pieceAlliance.isWhite())) {
                 final int beforeCandidateDestinationCoordinate = this.piecePosition + (this.pieceAlliance.getDirection() * 8);
                 // checking if both tiles (tile before jump destination and jump destination tile) aren't occupied
                 if(!board.getTile(beforeCandidateDestinationCoordinate).isTileOccupied() &&
