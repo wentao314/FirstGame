@@ -20,7 +20,7 @@ public class GameHistoryPanel extends JPanel {
 
     private final DataModel model;
     private final JScrollPane scrollPane;
-    private static final Dimension HISTORY_PANEL_DIMENSION = new Dimension(100, 400);
+    private static final Dimension HISTORY_PANEL_DIMENSION = new Dimension(150, 500);
 
     /**
      * Constructs a new game history panel, initializing the layout, custom data model,
@@ -30,7 +30,7 @@ public class GameHistoryPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.model = new DataModel();
         final JTable table = new JTable(model);
-        table.setRowHeight(15);
+        table.setRowHeight(25);
         this.scrollPane = new JScrollPane(table);
         scrollPane.setColumnHeaderView(table.getTableHeader());
         scrollPane.setPreferredSize(HISTORY_PANEL_DIMENSION);
@@ -48,7 +48,7 @@ public class GameHistoryPanel extends JPanel {
         int currentRow = 0;
         this.model.clear();
         for(final Move move: moveHistory.getMoves()) {
-            final String moveText = move.toString();
+            final String moveText = move.getMovedPiece().toString() + move;
             if(move.getMovedPiece().getPieceAlliance().isWhite()) {
                 this.model.setValueAt(moveText, currentRow, 0);
             } else if(move.getMovedPiece().getPieceAlliance().isBlack()) {
@@ -57,9 +57,9 @@ public class GameHistoryPanel extends JPanel {
             }
         }
 
-        if(moveHistory.getMoves().size() > 0) {
+        if(!moveHistory.getMoves().isEmpty()) {
             final Move lastMove = moveHistory.getMoves().get(moveHistory.size() - 1);
-            final String moveText = lastMove.toString();
+            final String moveText = lastMove.getMovedPiece().toString() + lastMove;
             if(lastMove.getMovedPiece().getPieceAlliance().isWhite()) {
                 this.model.setValueAt(moveText + calculateCheckAndCheckMateHash(board), currentRow, 0);
             } else if(lastMove.getMovedPiece().getPieceAlliance().isBlack()) {
@@ -74,7 +74,7 @@ public class GameHistoryPanel extends JPanel {
     /**
      * Calculates string representation for check and checkmate in the game history log.
      * @param board current board
-     * @return string indicating state
+     * @return # for checkmate, + for check, otherwise empty string
      */
     private String calculateCheckAndCheckMateHash(final Board board) {
         if(board.currentPlayer().isInCheckMate()) {
@@ -181,7 +181,7 @@ public class GameHistoryPanel extends JPanel {
 
         /**
          * Retrieves the notation for white's move in this turn.
-         * @returna string representing white's move
+         * @return a string representing white's move
          */
         public String getWhiteMove() {
             return this.whiteMove;
@@ -189,7 +189,7 @@ public class GameHistoryPanel extends JPanel {
 
         /**
          * Retrieves the notation for black's move in this turn.
-         * @returna string representing black's move
+         * @return a string representing black's move
          */
         public String getBlackMove() {
             return this.blackMove;

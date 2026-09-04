@@ -8,6 +8,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,13 +24,14 @@ public class TakenPiecesPanel extends JPanel {
 
     private final JPanel northPanel;
     private final JPanel southPanel;
+    private MoveLog moveLog;
 
-    private static final Color PANEL_COLOR = Color.decode("0xFDFE6");
-    private static final Dimension TAKEN_PIECES_DIMENSION = new Dimension(40, 80);
+    private static final Color PANEL_COLOR = Color.decode("#A67C52");
+    private static final Dimension TAKEN_PIECES_DIMENSION = new Dimension(100, 80);
     private static final EtchedBorder PANEL_BORDER = new EtchedBorder(EtchedBorder.RAISED);
 
     public TakenPiecesPanel() {
-        super(new BorderLayout());
+        super(new GridLayout(2, 1));
         setBackground(PANEL_COLOR);
         setBorder(PANEL_BORDER);
         this.northPanel = new JPanel(new GridLayout(8, 2));
@@ -38,9 +41,19 @@ public class TakenPiecesPanel extends JPanel {
         this.add(this.northPanel, BorderLayout.NORTH);
         this.add(this.southPanel, BorderLayout.SOUTH);
         setPreferredSize(TAKEN_PIECES_DIMENSION);
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                if(moveLog != null) {
+                    redo(moveLog);
+                }
+            }
+        });
     }
 
     public void redo(final MoveLog moveLog) {
+        this.moveLog = moveLog;
 
         southPanel.removeAll();
         northPanel.removeAll();
@@ -75,14 +88,25 @@ public class TakenPiecesPanel extends JPanel {
             }
         });
 
+        // dynamic image scaling
+
+        int panelWidth = getWidth() > 0 ? getWidth() : TAKEN_PIECES_DIMENSION.width;
+        int panelHeight = getHeight() > 0 ? getHeight() : TAKEN_PIECES_DIMENSION.height;
+
+        int halfHeight = panelHeight / 2;
+
+        int cellWidth = panelWidth / 2;
+        int cellHeight = halfHeight / 8;
+
+        int sideLength = Math.max(10, Math.min(cellWidth, cellHeight));
+
         for(final Piece takenPiece: whiteTakenPieces) {
             try {
                 final BufferedImage image = ImageIO.read(new File("art/pieces/plain/"
                          + takenPiece.getPieceAlliance().toString().substring(0, 1) + "" + takenPiece.toString()
                          + ".gif"));
-                final ImageIcon icon = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(
-                        icon.getIconWidth() - 15, icon.getIconWidth() - 15, Image.SCALE_SMOOTH)));
+                final Image scaledImage = image.getScaledInstance(sideLength, sideLength, Image.SCALE_SMOOTH);
+                final JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
                 this.southPanel.add(imageLabel);
             } catch(final IOException e) {
                 throw new RuntimeException(e);
@@ -94,14 +118,14 @@ public class TakenPiecesPanel extends JPanel {
                 final BufferedImage image = ImageIO.read(new File("art/pieces/plain/"
                         + takenPiece.getPieceAlliance().toString().substring(0, 1) + "" + takenPiece.toString()
                         + ".gif"));
-                final ImageIcon icon = new ImageIcon(image);
-                final JLabel imageLabel = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(
-                        icon.getIconWidth() - 15, icon.getIconWidth() - 15, Image.SCALE_SMOOTH)));
+                final Image scaledImage = image.getScaledInstance(sideLength, sideLength, Image.SCALE_SMOOTH);
+                final JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
                 this.northPanel.add(imageLabel);
             } catch(final IOException e) {
                 throw new RuntimeException(e);
             }
         }
         validate();
+        repaint();
     }
 }

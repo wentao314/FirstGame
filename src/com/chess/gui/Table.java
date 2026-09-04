@@ -11,10 +11,7 @@ import com.google.common.collect.Lists;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -43,9 +40,9 @@ public class Table {
 
     private boolean highlightLegalMoves;
 
-    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(1000,1000);
-    private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
-    private final static Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
+    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(1000,850);
+    private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(700, 700);
+    private final static Dimension TILE_PANEL_DIMENSION = new Dimension(20, 20);
     private final static String defaultPieceImagesPath = "art/pieces/plain/";
 
     private final Color lightTileColor = Color.decode("#eeeed2");
@@ -154,6 +151,15 @@ public class Table {
                 add(tilePanel);
             }
             setPreferredSize((BOARD_PANEL_DIMENSION));
+
+            // react to scaling changes
+            this.addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    drawBoard(chessBoard);
+                }
+            });
+
             validate();
         }
 
@@ -291,9 +297,14 @@ public class Table {
                             ImageIO.read(new File(defaultPieceImagesPath + board.getTile(this.tileId).getPiece().getPieceAlliance().toString().substring(0,1) +
                             board.getTile(this.tileId).getPiece().toString() + ".gif"));
 
-                    add(new JLabel(new ImageIcon(image)));
+                    // dynamic image scaling
+                    int width = getWidth() > 0 ? getWidth() : 40;
+                    int height = getHeight() > 0 ? getHeight() :40;
+                    Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+                    add(new JLabel(new ImageIcon(scaledImage)));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -305,7 +316,7 @@ public class Table {
                         try {
                             add(new JLabel(new ImageIcon(ImageIO.read(new File("art/misc/green_dot.png")))));
                         } catch(Exception e) {
-                            e.printStackTrace();
+                            throw new RuntimeException(e);
                         }
                     }
                 }
