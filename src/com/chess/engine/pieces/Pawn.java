@@ -22,7 +22,13 @@ public class Pawn extends Piece {
      * @param pieceAlliance either white or black
      */
     public Pawn(final int piecePosition,final Alliance pieceAlliance) {
-        super(PieceType.PAWN, piecePosition, pieceAlliance);
+        super(PieceType.PAWN, piecePosition, pieceAlliance, true);
+    }
+
+    public Pawn(final Alliance pieceAlliance,
+                final int piecePosition,
+                final boolean isFirstMove) {
+        super(PieceType.PAWN, piecePosition, pieceAlliance, isFirstMove);
     }
 
     /**
@@ -50,13 +56,13 @@ public class Pawn extends Piece {
                 legalMoves.add(new MajorMove(board, this,candidateDestinationCoordinate));
             // pawn jump (2 tile jump)
             } else if(currentCandidateOffset == 16 && this.isFirstMove() &&
-                    (BoardUtils.SEVENTH_RANK[this.piecePosition] && this.pieceAlliance.isBlack()) ||
-                    (BoardUtils.SECOND_RANK[this.piecePosition] && this.pieceAlliance.isWhite())) {
+                    ((BoardUtils.SEVENTH_RANK[this.piecePosition] && this.pieceAlliance.isBlack()) ||
+                     (BoardUtils.SECOND_RANK[this.piecePosition] && this.pieceAlliance.isWhite()))) {
                 final int beforeCandidateDestinationCoordinate = this.piecePosition + (this.pieceAlliance.getDirection() * 8);
                 // checking if both tiles (tile before jump destination and jump destination tile) aren't occupied
                 if(!board.getTile(beforeCandidateDestinationCoordinate).isTileOccupied() &&
                    !board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
-                    legalMoves.add(new MajorMove(board, this,candidateDestinationCoordinate));
+                    legalMoves.add(new PawnJump(board, this,candidateDestinationCoordinate));
                 }
             // attacking moves (diagonal)
             // checking exclusions
@@ -69,7 +75,7 @@ public class Pawn extends Piece {
                     // checking if occupying piece belongs to enemy
                     if(this.pieceAlliance != pieceOnCandidate.getPieceAlliance()) {
                         // TODO
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, pieceOnCandidate));
                     }
                 }
             } else if(currentCandidateOffset == 9 &&
@@ -81,7 +87,7 @@ public class Pawn extends Piece {
                     // checking if occupying piece belongs to enemy
                     if(this.pieceAlliance != pieceOnCandidate.getPieceAlliance()) {
                         // TODO
-                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                        legalMoves.add(new PawnAttackMove(board, this, candidateDestinationCoordinate, pieceOnCandidate));
                     }
                 }
             }

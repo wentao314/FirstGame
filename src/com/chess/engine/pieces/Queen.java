@@ -24,7 +24,13 @@ public class Queen extends Piece {
      * @param pieceAlliance either white or black
      */
     public Queen(final int piecePosition, final Alliance pieceAlliance) {
-        super(PieceType.QUEEN, piecePosition, pieceAlliance);
+        super(PieceType.QUEEN, piecePosition, pieceAlliance, true);
+    }
+
+    public Queen(final Alliance pieceAlliance,
+                 final int piecePosition,
+                 final boolean isFirstMove) {
+        super(PieceType.QUEEN, piecePosition, pieceAlliance, isFirstMove);
     }
 
     /**
