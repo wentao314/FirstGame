@@ -13,11 +13,19 @@ My main goal is to improve my understanding of **oject-oriented programming, alg
 
 ## ✨Current features
 - Chess board representation
-- Piece movement and legal move generation
-- 
+- Piece movement
+- Legal move generation
+- Check(-mate) detection
+- Castling
+- En passant
+- Pawn promotion
+- Move history
+- Chess notation
+- GUI
 
 ## ⚙️Technologies
 - **Java**
+- **JavaFX**
 - **JUnit**
 - **Guava**
 - **Git**
