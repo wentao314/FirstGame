@@ -1,5 +1,6 @@
 package com.chess.engine;
 
+import com.chess.engine.board.BoardUtils;
 import com.chess.engine.player.BlackPlayer;
 import com.chess.engine.player.Player;
 import com.chess.engine.player.WhitePlayer;
@@ -12,6 +13,14 @@ public enum Alliance {
         @Override
         public int getDirection() {
             return -1;
+        }
+
+        /**
+         * @return 1 always
+         */
+        @Override
+        public int getOppositeDirection() {
+            return 1;
         }
 
         /**
@@ -28,6 +37,11 @@ public enum Alliance {
         @Override
         public boolean isBlack() {
             return false;
+        }
+
+        @Override
+        public boolean isPawnPromotionSquare(int position) {
+            return BoardUtils.EIGHTH_RANK[position];
         }
 
         @Override
@@ -45,6 +59,14 @@ public enum Alliance {
         }
 
         /**
+         * @return -1 always
+         */
+        @Override
+        public int getOppositeDirection() {
+            return -1;
+        }
+
+        /**
          * @return false always
          */
         @Override
@@ -58,6 +80,11 @@ public enum Alliance {
         @Override
         public boolean isBlack() {
             return true;
+        }
+
+        @Override
+        public boolean isPawnPromotionSquare(int position) {
+            return BoardUtils.FIRST_RANK[position];
         }
 
         @Override
@@ -75,6 +102,13 @@ public enum Alliance {
     public abstract int getDirection();
 
     /**
+     * The opposite of {@link #getDirection()}.
+     *
+     * @return always 1 for white and -1 for black
+     */
+    public abstract int getOppositeDirection();
+
+    /**
      * Checks if a piece's alliance is white
      * @return true if white, otherwise false
      */
@@ -85,6 +119,13 @@ public enum Alliance {
      * @return true if black, otherwise false
      */
     public abstract boolean isBlack();
+
+    /**
+     * Checks if a tile is a pawn promotion tile
+     * @param position tile coordinate
+     * @return true if the position is a promotion square, otherwise false
+     */
+    public abstract boolean isPawnPromotionSquare(int position);
 
     /**
      * Specifies the player this method was called on

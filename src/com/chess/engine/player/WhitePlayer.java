@@ -60,7 +60,7 @@ public class WhitePlayer extends Player{
                                                                     62,
                                                                     (Rook) rookTile.getPiece(),
                                                                     rookTile.getTileCoordinate(),
-                                                                    59));
+                                                                    61));
                     }
                 }
             }

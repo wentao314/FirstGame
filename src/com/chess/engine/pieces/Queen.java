@@ -16,7 +16,7 @@ import static com.chess.engine.board.Move.*;
 public class Queen extends Piece {
 
     // since the queen possesses the abilities of both the rook and bishop, this is going to be a combination of both offsets
-    private static final int [] CANDIDATE_MOVE_VECTOR_COORDINATES = {-17, -15, -10, -8, -6, -1, 1, 6, 8, 10, 15, 17};
+    private static final int [] CANDIDATE_MOVE_VECTOR_COORDINATES = {-8, -1, 1, 8, -9, -7, 7, 9};
 
     /**
      * Allows creating a new queen with given piece position and alliance.
@@ -67,7 +67,7 @@ public class Queen extends Piece {
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if(this.pieceAlliance != pieceAlliance) {
-                            legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
+                            legalMoves.add(new MajorAttackMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                         }
                         break;
                     }

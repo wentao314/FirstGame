@@ -43,7 +43,7 @@ public class Table {
 
     private boolean highlightLegalMoves;
 
-    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(600,600);
+    private final static Dimension OUTER_FRAME_DIMENSION = new Dimension(1000,1000);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private final static Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
     private final static String defaultPieceImagesPath = "art/pieces/plain/";
@@ -286,7 +286,6 @@ public class Table {
         private void assignTilePieceIcon(final Board board) {
             this.removeAll();
             if(board.getTile(this.tileId).isTileOccupied()) {
-
                 try {
                     final BufferedImage image =
                             ImageIO.read(new File(defaultPieceImagesPath + board.getTile(this.tileId).getPiece().getPieceAlliance().toString().substring(0,1) +
